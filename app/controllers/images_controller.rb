@@ -4,14 +4,17 @@ class ImagesController < ApplicationController
   def index
     @tags = params[:tags] ? params[:tags].split(Image.tags_separator) : nil
     if @tags
-      @images = Image.tagged_with_all(@tags)
+      @images = Image.recent.tagged_with_all(@tags)
     else
-      @images = Image.all
+      @images = Image.recent
     end
+
+    @images = Kaminari.paginate_array(@images).page(params[:page]).per(200)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @images }
+      format.atom
     end
   end
 

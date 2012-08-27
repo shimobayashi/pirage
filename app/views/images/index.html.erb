@@ -1,8 +1,5 @@
 <h1><%= link_to('Pirage', '/') %></h1>
 
-<div>
-
-</div>
 <%= form_tag('/', :method => :get) do %>
   <div class="field">
     <%= label_tag :tags %><br />
@@ -16,6 +13,8 @@
 <% if @tags %>
   <p>Images tagged by "<%= params[:tags] %>"</p>
 <% end %>
+
+<%= paginate @images %>
 
 <table>
   <tr>
@@ -42,6 +41,8 @@
   </tr>
 <% end %>
 </table>
+
+<%= paginate @images %>
 
 <br />
 
