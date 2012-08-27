@@ -5,9 +5,20 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <%= auto_discovery_link_tag(:atom, url_for(:controller => :images, :action => :index, :format => :atom, :only_path => false)) %>
+  <%= auto_discovery_link_tag(:atom, '/images.atom') %>
 </head>
 <body>
+
+<p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
+
+<h1><%= link_to('Pirage', '/') %></h1>
+
+<% if user_signed_in? %>
+  <p>hi, <%= current_user.email %>. <%= User.count %> users available. <%= link_to "Sign out", destroy_user_session_path, :method => :delete %></p>
+<% else %>
+  <p><%= link_to "Sign in", new_user_session_path %></p>
+<% end %>
 
 <%= yield %>
 

@@ -1,4 +1,11 @@
 class ImagesController < ApplicationController
+  before_filter :authenticate_user!, :except => [:index, :serve]
+  before_filter :authentication_required, :only => [:serve]
+
+  def authentication_required
+    render(:text => 'access denied', :status => :unauthorized) unless user_signed_in?
+  end
+
   # GET /images
   # GET /images.json
   def index
