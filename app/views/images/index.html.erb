@@ -1,8 +1,29 @@
-<h1>Listing images</h1>
+<h1><%= link_to('Pirage', '/') %></h1>
+
+<div>
+
+</div>
+<%= form_tag('/', :method => :get) do %>
+  <div class="field">
+    <%= label_tag :tags %><br />
+    <%= text_field_tag :tags, params[:tags] %>
+  </div>
+  <div class="actions">
+    <%= submit_tag 'Search' %>
+  </div>
+<% end %>
+
+<% if @tags %>
+  <p>Images tagged by "<%= params[:tags] %>"</p>
+<% end %>
 
 <table>
   <tr>
+    <th>Artist</th>
     <th>Title</th>
+    <th>Thumbnail</th>
+    <th>Url</th>
+    <th>Tags</th>
     <th></th>
     <th></th>
     <th></th>
@@ -10,7 +31,11 @@
 
 <% @images.each do |image| %>
   <tr>
+    <td><%= image.artist %></td>
     <td><%= image.title %></td>
+    <td><%= image_tag(image.image_url(:thumb)) %></td>
+    <td><%= link_to(image.url) if image.url %></td>
+    <td><%= image.tags %></td>
     <td><%= link_to 'Show', image %></td>
     <td><%= link_to 'Edit', edit_image_path(image) %></td>
     <td><%= link_to 'Destroy', image, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>

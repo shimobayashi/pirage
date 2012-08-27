@@ -2,7 +2,12 @@ class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
   def index
-    @images = Image.all
+    @tags = params[:tags] ? params[:tags].split(Image.tags_separator) : nil
+    if @tags
+      @images = Image.tagged_with_all(@tags)
+    else
+      @images = Image.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -92,4 +97,5 @@ class ImagesController < ApplicationController
       self.content_type = 'text/plain'
       self.response_body = ''
     end
+  end
 end
