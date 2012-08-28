@@ -30,7 +30,7 @@
   <tr>
     <td><%= image.artist %></td>
     <td><%= image.title %></td>
-    <td><%= image_tag(image.image_url(:thumb)) %></td>
+    <td><%= image_tag(image.image_url(:thumb)) if image.image? %></td>
     <td><%= link_to(image.url) if image.url %></td>
     <td><%= image.tags %></td>
     <td><%= link_to 'Show', image %></td>

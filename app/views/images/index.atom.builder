@@ -6,7 +6,9 @@ atom_feed(:language => 'ja-JP') do |feed|
     options = (image.url and image.url != '') ? {:url => image.url} : {}
     feed.entry(image, options) do |item|
       item.title("#{image.artist} - #{image.title}")
-      item.content("<p>#{image.tags}</p>" + link_to(image_tag((request.protocol + request.host_with_port) + image.image_url), image.url), :type => 'html')
+      content = "<p>#{image.tags}</p>"
+      content += link_to(image_tag((request.protocol + request.host_with_port) + image.image_url), image.url) if image.image?
+      item.content(content, :type => 'html')
       item.author do |author|
         author.name(image.artist)
       end
