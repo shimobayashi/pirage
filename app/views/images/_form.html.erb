@@ -12,12 +12,28 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :artist %><br />
+    <%= f.text_field :artist %>
+  </div>
+  <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :tags %><br />
+    <%= f.text_field :tags %>
+  </div>
+  <div class="field">
     <%= f.label :image %>
-    <%= image_tag(@image.photo_url) if @image.photo? %>
-    <%= f.file_filed :image %>
-    <%= f.hidden_field :photo_cache %>
+    <%= image_tag(@image.image_url) if @image.image? %>
+  </div>
+  <div class="field">
+    <%= f.file_field :image %>
+    <%= f.hidden_field :image_cache %>
   </div>
   <div class="actions">
     <%= f.submit %>

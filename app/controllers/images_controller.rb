@@ -1,12 +1,29 @@
 class ImagesController < ApplicationController
+  before_filter :authenticate_user!, :except => [:index, :serve, :create]
+  before_filter :authentication_required, :only => [:serve]
+  before_filter :whitelist, :only => [:create]
+  protect_from_forgery :except => [:create]
+
+  def authentication_required
+    render(:text => 'access denied', :status => :unauthorized) unless user_signed_in?
+  end
+
   # GET /images
   # GET /images.json
   def index
-    @images = Image.all
+    @tags = params[:tags] ? params[:tags].split(Image.tags_separator) : nil
+    if @tags
+      @images = Image.recent.tagged_with_all(@tags)
+    else
+      @images = Image.recent
+    end
+
+    @images = Kaminari.paginate_array(@images).page(params[:page]).per(200)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @images }
+      format.atom
     end
   end
 
@@ -44,6 +61,8 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
+        Image.asc(:created_at).first.delete if Image.count > 1000
+
         format.html { redirect_to @image, :notice => 'Image was successfully created.' }
         format.json { render :json => @image, :status => :created, :location => @image }
       else

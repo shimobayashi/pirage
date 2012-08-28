@@ -1,10 +1,15 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Title:</b>
-  <%= @image.title %>
-</p>
-
+<dl>
+  <dt>Artist</dt>
+  <dd><%= @image.artist %></dd>
+  <dt>Title</dt>
+  <dd><%= @image.title %></dd>
+  <dt>Url</dt>
+  <dd><%= link_to(@image.url, @image.url) %></dd>
+  <dt>Tags</dt>
+  <dd><%= @image.tags %></dd>
+  <dt>Image</dt>
+  <dd><%= image_tag(@image.image_url) %></dd>
+</dl>
 
 <%= link_to 'Edit', edit_image_path(@image) %> |
 <%= link_to 'Back', images_path %>

@@ -1,4 +1,7 @@
 Pirage::Application.routes.draw do
+  devise_for :users, :controllers => {:registrations => 'registrations'}
+
+  root :to => 'images#index'
   resources :images
   match "/images/uploads/*path" => "images#serve"
 
