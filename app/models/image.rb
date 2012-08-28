@@ -10,5 +10,5 @@ class Image
   field :url, :type => String
   mount_uploader :image, ImageUploader
 
-  scope :recent, order_by(:created_at => :desc)
+  scope :recent, desc(:created_at)
 end

@@ -1,6 +1,8 @@
 class ImagesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :serve]
+  before_filter :authenticate_user!, :except => [:index, :serve, :create]
   before_filter :authentication_required, :only => [:serve]
+  before_filter :whitelist, :only => [:create]
+  protect_from_forgery :except => [:create]
 
   def authentication_required
     render(:text => 'access denied', :status => :unauthorized) unless user_signed_in?
@@ -59,6 +61,8 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
+        Image.asc(:created_at).first.delete if Image.count > 1000
+
         format.html { redirect_to @image, :notice => 'Image was successfully created.' }
         format.json { render :json => @image, :status => :created, :location => @image }
       else
