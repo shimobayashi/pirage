@@ -92,4 +92,5 @@ class ImagesController < ApplicationController
       self.content_type = 'text/plain'
       self.response_body = ''
     end
+  end
 end
