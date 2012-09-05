@@ -14,12 +14,11 @@ class ImagesController < ApplicationController
     @tags = params[:tags] ? params[:tags].split(Image.tags_separator) : nil
 
     if @tags
-      include_tags = @tags.reject {|t| t[0] == '-'}
-      exclude_tags = @tags.select {|t| t[0] == '-'}
+      include_tags = @tags.reject {|t| t.slice(0, 1) == '-'}
+      exclude_tags = @tags.select {|t| t.slice(0, 1) == '-'}
       exclude_tags.map! {|t| t[1..-1]}
 
-      @images = Image.recent.tagged_with_all(include_tags)
-      @images.reject! {|i| (i.tags_array & exclude_tags).size > 0}
+      @images = Image.recent.tagged_with_all(include_tags).not_in(:tags_array => exclude_tags)
     else
       @images = Image.recent
     end
