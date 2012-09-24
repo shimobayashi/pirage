@@ -12,8 +12,13 @@ class ImagesController < ApplicationController
   # GET /images.json
   def index
     @tags = params[:tags] ? params[:tags].split(Image.tags_separator) : nil
+
     if @tags
-      @images = Image.recent.tagged_with_all(@tags)
+      include_tags = @tags.reject {|t| t.slice(0, 1) == '-'}
+      exclude_tags = @tags.select {|t| t.slice(0, 1) == '-'}
+      exclude_tags.map! {|t| t[1..-1]}
+
+      @images = Image.recent.tagged_with_all(include_tags).not_in(:tags_array => exclude_tags)
     else
       @images = Image.recent
     end
