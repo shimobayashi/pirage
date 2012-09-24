@@ -61,7 +61,7 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
-        Image.asc(:created_at).first.delete if Image.count > 1000
+        Image.asc(:created_at).first.delete if Image.count > 800
 
         format.html { redirect_to @image, :notice => 'Image was successfully created.' }
         format.json { render :json => @image, :status => :created, :location => @image }
