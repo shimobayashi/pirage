@@ -31,6 +31,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Process files as they are uploaded:
   # process :scale => [200, 300]
+  process :convert => 'jpg'
   process :resize_to_limit => [512, 512]
   process :quality => 60
   #
@@ -41,6 +42,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :thumb do
     #process :scale => [50, 50]
+    process :convert => 'jpg'
     process :resize_to_limit => [128, 128]
     process :quality => 40
   end
@@ -57,4 +59,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "something.jpg" if original_filename
   # end
 
+  def filename
+    super.chomp(File.extname(super)) + '.jpg'
+  end
 end
