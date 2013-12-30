@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :serve, :create]
   before_filter :authentication_required, :only => [:serve]
-  before_filter :whitelist, :only => [:create]
+  #before_filter :whitelist, :only => [:create]
   protect_from_forgery :except => [:create]
 
   def authentication_required
